@@ -18,7 +18,7 @@
 
     </router-link>
       <li class="flex hover:text-primary">
-        <a>
+        <a href="/logout">
           <LogoutIcon class="w-5 h-5 mr-2" />
           Log out</a
         >
@@ -31,6 +31,10 @@
 import { ChevronDownIcon, UserIcon } from '@heroicons/vue/solid';
 import { LogoutIcon } from '@heroicons/vue/outline';
 export default {
+  props: {
+    user: Object,
+    default: {}
+  },
   components: {
     ChevronDownIcon,
     UserIcon,
@@ -38,10 +42,7 @@ export default {
   },
   data() {
     return {
-      user: {
-        name: 'Med',
-      },
-    };
+    }
   },
 };
 </script>

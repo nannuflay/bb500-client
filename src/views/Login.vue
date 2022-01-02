@@ -9,9 +9,10 @@
               <span className="label-text font-bold">Email</span>
             </label>
             <input
+              v-model="email"
               type="text"
               placeholder="e-mail"
-              className="input input-bordered  focus:text-white focus:font-extrabold focus:text-lg"
+              className="input input-bordered focus:font-extrabold focus:text-lg"
             />
           </div>
 
@@ -20,20 +21,17 @@
               <span className="label-text font-bold">Password</span>
             </label>
             <input
+              v-model="password"
               type="password"
               placeholder="password     "
-              className="input input-bordered  focus:text-white focus:font-extrabold focus:text-lg"
+              className="input input-bordered focus:font-extrabold focus:text-lg"
             />
           </div>
-          <div
-            className="flex justify-end my-2 text-sm link-primary font-Roboto font-medium"
-          >
-            <a href="#"> Forgot password?</a>
-          </div>
+          <span v-if="error" style="color: red;">Invalid email or/and password</span>
           <div
             className="flex flex-wrap justify-center my-4 text-sm  font-Roboto font-medium text-gray-600"
           >
-            <button className="w-5/6 btn btn-success my-8">Login</button>
+            <button @click="login" className="w-5/6 btn btn-success my-8">Login</button>
 
             <span>
               Dont have an account yet?
@@ -51,17 +49,32 @@ export default {
   name: 'pink-tabs',
   data() {
     return {
-      user: {
-        name: '',
-        email: '',
-        address: '',
-        category: '',
-        phone: '',
-        lat: null,
-        lng: null,
-        bio: '',
-      },
+      error: false,
+      email: null,
+      password: null
     };
   },
+  methods: {
+    login() {
+      let context = this;
+      let url = '/checkPassword';
+      let payload = {
+        email: this.email,
+        password: this.password
+      }
+      this.axios.post(url, payload).then(response => {
+        if(response.data.valid) {
+          let login = {logged: true, name: response.data.name}
+          localStorage.setItem('user', JSON.stringify(login));
+          setTimeout(function() {
+             window.location.href = '/profile';
+            //context.$router.replace({ name: 'ProfileSettings' })
+          }, 1500);
+        } else {
+          context.error = true;
+        }
+      });
+    }
+  }
 };
 </script>
