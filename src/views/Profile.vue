@@ -17,7 +17,10 @@ export default {
   data() {
     return {
       id: null,
-      user: {},
+      user: {
+        categories: []
+      },
+      success: false
     };
   },
   created() {
@@ -27,19 +30,24 @@ export default {
     async initialize() {
       this.id = JSON.parse(localStorage.getItem('user')).id;
       let context = this;
-      let url = '/findProfile';
-      // this.axios.get(url, { params: { id: context.id } }).then((res) => {
-      //   context.user = res.data;
-      //   console.log(context.user);
-      // });
-      try {
-        let response = await this.axios.get(url, { params: { "id": 1 } });
-        context.user = response.data;
-        console.log(context.user);
-      } catch (error) {
-        console.log(error);
-      }
+      let url = '/findProfile?id=' + context.id;
+      this.axios.get(url).then((res) => {
+        context.user = res.data;
+        console.log(res);
+      });
     },
+    handlePositionChange(position) {
+      this.user.lat = position.lat();
+      this.user.lng = position.lng();
+    },
+    save() {
+      this.user.categories = [this.user.categories[0]];
+      let url = '/updateProfile';
+      this.axios.put(url, this.user).then((res) => {
+        console.log(res);
+        this.success = true;
+      });
+    }
   },
 };
 </script>
@@ -93,7 +101,7 @@ export default {
             </label>
             <select
               class="select select-bordered w-full max-w-xs bg-slate-100"
-              v-model="user.category"
+              v-model="user.categories[0]"
             >
               <option disabled="disabled" selected="selected">
                 Choose your category
@@ -110,7 +118,7 @@ export default {
               <span class="label-text font-bold">Your bio</span>
             </label>
             <textarea
-              v-model="user.bio"
+              v-model="user.about"
               class="
                 textarea
                 h-28
@@ -123,29 +131,10 @@ export default {
             ></textarea>
           </div>
         </div>
-        <div class="w w-full flex items-center justify-between flex-wrap mt-6">
+        <div class="w-full bg-zinc-100 shadow-md rounded-lg overflow-hidden my-5">
           <h1 class="w-4/6 text-xl font-extrabold mb-10">Map settings</h1>
-          <div class="form-control w-2/5">
-            <label class="label">
-              <span class="label-text font-bold">Lat</span>
-            </label>
-            <input
-              v-model="user.lat"
-              type="number"
-              placeholder="Address"
-              class="input bg-slate-100 text-lg font-medium"
-            />
-          </div>
-          <div class="form-control w-2/5">
-            <label class="label">
-              <span class="label-text font-bold">Lng</span>
-            </label>
-            <input
-              v-model="user.lng"
-              type="number"
-              placeholder="Address"
-              class="input bg-slate-100 text-lg font-medium"
-            />
+          <div v-if="user.lat && user.lng">
+            <ProfileMap @positionChange="handlePositionChange" :lat="user.lat" :lng="user.lng" />
           </div>
         </div>
         <div class="w-full flex justify-between mt-10 items-center">
@@ -189,19 +178,14 @@ export default {
               </div>
               <div class="modal-action">
                 <label for="my-modal-2" class="btn">Close</label>
-                <label for="my-modal-2" class="btn btn-primary"
-                  >Save changes</label
+                <label for="my-modal-2" class="btn btn-primary">Save changes</label
                 >
               </div>
             </div>
           </div>
-          <button class="btn btn-primary">Save</button>
+          <span style="font-size: larger; font-weight: 500; color: #12af12;" v-if="success">Your profile updated successfully!</span>
+          <button @click="save" class="btn btn-primary">Save</button>
         </div>
-      </div>
-    </div>
-    <div class="w-full bg-zinc-100 shadow-md rounded-lg overflow-hidden my-5">
-      <div>
-        <ProfileMap />
       </div>
     </div>
   </div>

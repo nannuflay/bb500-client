@@ -18,9 +18,9 @@
       >
         <Marker
           clickable
-          v-for="profile in profiles"
+          v-for="(profile, index) in profiles"
           :key="profile.profileId"
-          @click="openMarker()"
+          @click="openMarker(index)"
           :options="{ position: profile }"
         >
           <GMapInfoWindow :opened="true">
@@ -61,8 +61,10 @@ export default defineComponent({
         console.log(context.profiles);
       });
     },
-    openMarker() {
-      window.alert('ddddddddd');
+    openMarker(index) {
+      window.alert(this.profiles[index].name);
+      console.log("Clicked profile = ", this.profiles[index]);
+      // Do something with this.profiles[index] it is the profile, now just show it in a modal
       this.openWindow = true;
     },
   },

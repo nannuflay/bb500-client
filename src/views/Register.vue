@@ -128,7 +128,7 @@
                 :zoom="4"
               >
                 <Marker
-                clickable
+                  clickable
                   :options="{
                     position: { lat: 40.73061, lng: -73.935242 },
                     clickable: true,
