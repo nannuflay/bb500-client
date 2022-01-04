@@ -64,7 +64,8 @@ export default {
       }
       this.axios.post(url, payload).then(response => {
         if(response.data.valid) {
-          let login = {logged: true, name: response.data.name}
+          console.log(response.data);
+          let login = {logged: true, name: response.data.name, id: response.data.id}
           localStorage.setItem('user', JSON.stringify(login));
           setTimeout(function() {
              window.location.href = '/profile';

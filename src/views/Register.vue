@@ -2,10 +2,14 @@
   <div class="w-full bg-base-200 p-10 flex justify-center">
     <div class="w-3/6">
       <div className=" p-4 bg-white w-full rounded-lg shadow-lg">
-        <h1 v-if="!success" class="font-bold text-3xl text-center my-5">Create Profile</h1>
+        <h1 v-if="!success" class="font-bold text-3xl text-center my-5">
+          Create Profile
+        </h1>
 
         <div v-if="success">
-          <h1 class="font-bold text-3xl text-center my-5">You have successfully signup, you will be redirected to Log-in</h1>
+          <h1 class="font-bold text-3xl text-center my-5">
+            You have successfully signup, you will be redirected to Log-in
+          </h1>
         </div>
         <form v-else @submit.prevent="save" className=" mx-auto my-10">
           <div class="flex items-center w-full justify-between">
@@ -94,18 +98,42 @@
               </textarea>
             </div>
           </div>
-          <div class="flex items-center justify-between">
-            <div class="shadow-2xl rounded-lg w-full overflow-hidden mx-auto my-10">
+          <div class="flex flex-col">
+            <div class="alert alert-info mb-4 mt-10">
+              <div class="flex-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  class="w-6 h-6 mx-2 stroke-current"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+                <label>Drag the marker to the position you want</label>
+              </div>
+            </div>
+            <div
+              class="shadow-2xl rounded-lg w-full overflow-hidden mx-auto mb-10"
+            >
               <GoogleMap
                 api-key="AIzaSyC_6hw4jl5QTB3gOgP--RC_ZGL6odyoWSo"
                 style="width: 100%; height: 80vh"
                 class="mx-auto"
                 :center="center"
-                :zoom="15"
+                :zoom="4"
               >
-
                 <Marker
-                  :options="{ position: { lat: 40.689247, lng: -74.044502 }, clickable:true, draggable:true  }"
+                clickable
+                  :options="{
+                    position: { lat: 40.73061, lng: -73.935242 },
+                    clickable: true,
+                    draggable: true,
+                  }"
                   @drag="handleMarkerDrag"
                 />
               </GoogleMap>
@@ -114,7 +142,13 @@
           <div
             className="flex flex-wrap justify-center my-4 text-sm  font-Roboto font-medium text-gray-600"
           >
-            <button @submit="save" type="submit" className="w-5/6 btn btn-success my-8">Sign up</button>
+            <button
+              @submit="save"
+              type="submit"
+              className="w-5/6 btn btn-success my-8"
+            >
+              Sign up
+            </button>
 
             <span>
               Do you already have an account?
@@ -136,6 +170,7 @@ export default {
   data() {
     return {
       success: false,
+      center: { lat: 40.73061, lng: -73.935242 },
       user: {
         name: '',
         email: '',
@@ -145,7 +180,7 @@ export default {
         categories: null,
         lat: null,
         lng: null,
-        available: true
+        available: true,
       },
     };
   },
@@ -159,13 +194,13 @@ export default {
       let context = this;
 
       let url = '/addProfile';
-      this.axios.post(url, this.user).then(response => {
+      this.axios.post(url, this.user).then((response) => {
         this.success = true;
-        setTimeout(function() {
-          context.$router.push({ name: 'Login' })
+        setTimeout(function () {
+          context.$router.push({ name: 'Login' });
         }, 3000);
       });
-    }
-  }
+    },
+  },
 };
 </script>

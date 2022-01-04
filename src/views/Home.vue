@@ -14,9 +14,19 @@
         style="width: 100%; height: 80vh"
         class="mx-auto"
         :center="center"
-        :zoom="15"
+        :zoom="2"
       >
-        <Marker :options="{ position: center }" />
+        <Marker
+          clickable
+          v-for="profile in profiles"
+          :key="profile.profileId"
+          @click="openMarker()"
+          :options="{ position: profile }"
+        >
+          <GMapInfoWindow :opened="true">
+            <div>I am in info window <MyComponent /></div>
+          </GMapInfoWindow>
+        </Marker>
       </GoogleMap>
     </div>
   </div>
@@ -32,6 +42,29 @@ export default defineComponent({
     const center = { lat: 40.689247, lng: -74.044502 };
 
     return { center };
+  },
+  data() {
+    return {
+      profiles: [],
+      openWindow: false,
+    };
+  },
+  created() {
+    this.getProfiles();
+  },
+  methods: {
+    getProfiles() {
+      let context = this;
+      let url = '/getProfiles';
+      this.axios.get(url).then((res) => {
+        context.profiles = res.data;
+        console.log(context.profiles);
+      });
+    },
+    openMarker() {
+      window.alert('ddddddddd');
+      this.openWindow = true;
+    },
   },
 });
 </script>

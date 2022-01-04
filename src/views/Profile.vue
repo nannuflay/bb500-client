@@ -16,17 +16,30 @@ export default {
   },
   data() {
     return {
-      user: {
-        name: 'Med local',
-        email: 'med#gmail.com',
-        address: 'LA, 345 street',
-        category: 'Artist',
-        phone: '6543234234',
-        lat: 43.09999,
-        lng: 65.02342,
-        bio: 'omnis atque necessitatibus. Consequatur aut adipisci qui iusto illo eaque. Consequatur repudiandae et. Nulla ea quasi eligendi. Saepe velit autem minima.',
-      },
+      id: null,
+      user: {},
     };
+  },
+  created() {
+    this.initialize();
+  },
+  methods: {
+    async initialize() {
+      this.id = JSON.parse(localStorage.getItem('user')).id;
+      let context = this;
+      let url = '/findProfile';
+      // this.axios.get(url, { params: { id: context.id } }).then((res) => {
+      //   context.user = res.data;
+      //   console.log(context.user);
+      // });
+      try {
+        let response = await this.axios.get(url, { params: { "id": 1 } });
+        context.user = response.data;
+        console.log(context.user);
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 };
 </script>
@@ -176,7 +189,9 @@ export default {
               </div>
               <div class="modal-action">
                 <label for="my-modal-2" class="btn">Close</label>
-                <label for="my-modal-2" class="btn btn-primary">Save changes</label>
+                <label for="my-modal-2" class="btn btn-primary"
+                  >Save changes</label
+                >
               </div>
             </div>
           </div>
