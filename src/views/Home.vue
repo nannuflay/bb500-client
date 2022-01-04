@@ -8,6 +8,7 @@
         impedit blanditiis.
       </p>
     </div>
+
     <div class="shadow-2xl rounded-lg w-5/6 overflow-hidden mx-auto my-10">
       <GoogleMap
         api-key="AIzaSyC_6hw4jl5QTB3gOgP--RC_ZGL6odyoWSo"
@@ -18,9 +19,10 @@
       >
         <Marker
           clickable
+          title=""
           v-for="(profile, index) in profiles"
           :key="profile.profileId"
-          @click="openMarker(index)"
+          @click="viewProfile(index)"
           :options="{ position: profile }"
         >
           <GMapInfoWindow :opened="true">
@@ -61,11 +63,11 @@ export default defineComponent({
         console.log(context.profiles);
       });
     },
-    openMarker(index) {
-      window.alert(this.profiles[index].name);
-      console.log("Clicked profile = ", this.profiles[index]);
-      // Do something with this.profiles[index] it is the profile, now just show it in a modal
-      this.openWindow = true;
+    viewProfile(index) {
+      this.$router.push({
+        name: 'ArtistProfile',
+        params: { id: this.profiles[index].profileId },
+      });
     },
   },
 });

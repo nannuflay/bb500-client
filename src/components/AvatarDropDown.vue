@@ -8,9 +8,9 @@
       tabindex="0"
       class="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52"
     >
-    <router-link to="/profile">
+    <router-link to="/my-profile">
       <li class="flex hover:text-primary">
-        <a href="/profile">
+        <a>
           <UserIcon class="w-5 h-5 mr-2" />
           My Profile</a
         >

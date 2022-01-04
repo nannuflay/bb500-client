@@ -18,9 +18,9 @@ export default {
     return {
       id: null,
       user: {
-        categories: []
+        categories: [],
       },
-      success: false
+      success: false,
     };
   },
   created() {
@@ -47,7 +47,7 @@ export default {
         console.log(res);
         this.success = true;
       });
-    }
+    },
   },
 };
 </script>
@@ -119,22 +119,19 @@ export default {
             </label>
             <textarea
               v-model="user.about"
-              class="
-                textarea
-                h-28
-                textarea-bordered
-                bg-slate-100
-                text-lg
-                font-medium
-              "
+              class="textarea h-28 textarea-bordered bg-slate-100 text-lg font-medium"
               placeholder="Bio"
             ></textarea>
           </div>
         </div>
-        <div class="w-full bg-zinc-100 shadow-md rounded-lg overflow-hidden my-5">
+        <div class="w-full rounded-lg overflow-hidden my-5">
           <h1 class="w-4/6 text-xl font-extrabold mb-10">Map settings</h1>
           <div v-if="user.lat && user.lng">
-            <ProfileMap @positionChange="handlePositionChange" :lat="user.lat" :lng="user.lng" />
+            <ProfileMap
+              @positionChange="handlePositionChange"
+              :lat="user.lat"
+              :lng="user.lng"
+            />
           </div>
         </div>
         <div class="w-full flex justify-between mt-10 items-center">
@@ -178,12 +175,33 @@ export default {
               </div>
               <div class="modal-action">
                 <label for="my-modal-2" class="btn">Close</label>
-                <label for="my-modal-2" class="btn btn-primary">Save changes</label
+                <label for="my-modal-2" class="btn btn-primary"
+                  >Save changes</label
                 >
               </div>
             </div>
           </div>
-          <span style="font-size: larger; font-weight: 500; color: #12af12;" v-if="success">Your profile updated successfully!</span>
+
+          <div class="alert alert-success" v-if="success">
+            <div class="flex-1">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 mr-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <label>Your profile updated successfully!</label>
+            </div>
+          </div>
+
           <button @click="save" class="btn btn-primary">Save</button>
         </div>
       </div>

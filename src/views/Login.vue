@@ -68,7 +68,7 @@ export default {
           let login = {logged: true, name: response.data.name, id: response.data.id}
           localStorage.setItem('user', JSON.stringify(login));
           setTimeout(function() {
-             window.location.href = '/profile';
+             window.location.href = '/my-profile';
             //context.$router.replace({ name: 'ProfileSettings' })
           }, 1500);
         } else {
