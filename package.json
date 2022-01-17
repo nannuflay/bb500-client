@@ -9,7 +9,7 @@
   "dependencies": {
     "@bundled-es-modules/axios": "^0.21.1",
     "axios": "^0.24.0",
-    "daisyui": "^1.21.0",
+    "daisyui": "^1.23.1",
     "vue": "^3.2.26",
     "vue-router": "^4.0.12",
     "vue3-google-map": "^0.8.3"
