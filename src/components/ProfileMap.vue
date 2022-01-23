@@ -29,8 +29,11 @@ import { GoogleMap, Marker } from 'vue3-google-map';
 export default defineComponent({
   components: { GoogleMap, Marker },
   props: {
-    lat: Object,
-    lng: Object
+    lat: Number,
+    lng: Number,
+    user: {
+      type: Object
+    }
   },
   data() {
     return {
@@ -49,6 +52,12 @@ export default defineComponent({
       position: this.center,
       clickable: true,
       draggable: true,
+      icon: {
+        labelOrigin: {x: 16, y: -10},
+        url: this.markerIconPath,
+        size: {width: 32, height: 50, f: 'px', b: 'px',},
+        scaledSize: {width: 30, height: 45, f: 'px', b: 'px',},
+      }
     };
   },
   methods: {
@@ -56,6 +65,11 @@ export default defineComponent({
       this.center.lat = options.latLng.lat();
       this.center.lng = options.latLng.lng();
       this.$emit('positionChange', options.latLng);
+    }
+  },
+  computed: {
+    markerIconPath() {
+      return './../../public/assets/images/' + this.user.categories[0] + '.png';
     }
   }
 });

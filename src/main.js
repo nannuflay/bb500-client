@@ -14,7 +14,6 @@ const instance = axios.create({
   },
 })
 
-
 const app = createApp(App)
 
 const router = createRouter({

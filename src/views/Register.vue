@@ -53,7 +53,7 @@
             </div>
           </div>
           <div class="flex items-center justify-between">
-            <div class="form-control w-3/5">
+            <div class="form-control w-full">
               <label class="label">
                 <span class="label-text font-bold">Address</span>
               </label>
@@ -65,22 +65,32 @@
                 class="input bg-slate-100 text-lg font-medium"
               />
             </div>
-            <div class="form-control w-1/5 flex-1 ml-5">
+          </div>
+          <div class="flex items-center justify-between" style="padding-top: 25px; padding-bottom: 15px;">
+            <div class="form-control w-1/5">
               <label class="label">
                 <span class="label-text font-bold">Category</span>
               </label>
-              <select
-                required
-                class="select select-bordered w-full max-w-xs bg-slate-100"
-                v-model="user.categories"
-              >
-                <option disabled="disabled" selected="selected">
-                  Choose your category
-                </option>
-                <option>Artist</option>
-                <option>option 2</option>
-                <option>option 3</option>
-              </select>
+            </div>
+            <div class="form-control w-1/5">
+              <input type="checkbox" id="producer" v-model="producer">
+              <label for="producer">Producer</label>
+            </div>
+            <div class="form-control w-1/5">
+              <input type="checkbox" id="songwriter" v-model="songwriter">
+              <label for="songwriter">Songwriter</label>
+            </div>
+              <div class="form-control w-1/5">
+              <input type="checkbox" id="musician" v-model="musician">
+              <label for="musician">Musician</label>
+            </div>
+              <div class="form-control w-1/5">
+              <input type="checkbox" id="executive" v-model="executive">
+              <label for="executive">Executive</label>
+            </div>
+              <div class="form-control w-1/5">
+              <input type="checkbox" id="singer" v-model="singer">
+              <label for="singer">Singer</label>
             </div>
           </div>
           <div class="flex items-center justify-between">
@@ -130,7 +140,7 @@
                 <Marker
                   clickable
                   :options="{
-                    position: { lat: 40.73061, lng: -73.935242 },
+                    position: center,
                     clickable: true,
                     draggable: true,
                   }"
@@ -160,7 +170,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import { GoogleMap, Marker } from 'vue3-google-map';
 
@@ -177,12 +186,28 @@ export default {
         password: '',
         address: '',
         about: '',
-        categories: null,
+        categories: [],
         lat: null,
         lng: null,
-        available: true,
+        available: true
       },
+      options: ['Songwriter', 'Musician', 'Vocal'],
+      selectedCategories: [],
+      singer: null,
+      songwriter: null,
+      executive: null,
+      musician: null,
+      producer: null
     };
+  },
+  mounted() {
+    let location = localStorage.getItem('location');
+    if(location) {
+      let locationObject = JSON.parse(location);
+      if(locationObject.lat && locationObject.lng) {
+        this.center = {lat: locationObject.lat, lng: locationObject.lng}
+      }
+    }
   },
   methods: {
     handleMarkerDrag(options) {
@@ -190,7 +215,16 @@ export default {
       this.user.lng = options.latLng.lng();
     },
     save() {
-      this.user.categories = [this.user.categories];
+      if(this.producer)
+        this.user.categories.push('producer');
+      if(this.songwriter)
+        this.user.categories.push('songwriter');
+      if(this.musician)
+        this.user.categories.push('musician');
+      if(this.executive)
+        this.user.categories.push('executive');
+      if(this.singer)
+        this.user.categories.push('singer');
       let context = this;
 
       let url = '/addProfile';
@@ -201,6 +235,6 @@ export default {
         }, 3000);
       });
     },
-  },
+  }
 };
 </script>

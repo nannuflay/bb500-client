@@ -81,7 +81,6 @@ export default {
       let url = '/findProfile?id=' + context.id;
       this.axios.get(url).then((res) => {
         context.user = res.data;
-        console.log(context.user);
       });
     },
     handlePositionChange(position) {
@@ -92,7 +91,6 @@ export default {
       this.user.categories = [this.user.categories[0]];
       let url = '/updateProfile';
       this.axios.put(url, this.user).then((res) => {
-        console.log(res);
         this.success = true;
       });
     },

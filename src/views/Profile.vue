@@ -21,6 +21,11 @@ export default {
         categories: [],
       },
       success: false,
+      singer: null,
+      songwriter: null,
+      executive: null,
+      musician: null,
+      producer: null
     };
   },
   created() {
@@ -33,7 +38,25 @@ export default {
       let url = '/findProfile?id=' + context.id;
       this.axios.get(url).then((res) => {
         context.user = res.data;
-        console.log(res);
+        context.user.categories.forEach((value, index) => {
+          switch(value) {
+            case 'songwriter':
+              context.songwriter = true;
+              break;
+            case 'singer':
+              context.singer = true;
+              break;
+            case 'executive':
+              context.executive = true;
+              break;
+            case 'musician':
+              context.musician = true;
+              break;
+            case 'producer':
+              context.producer = true;
+              break;
+          }
+        });
       });
     },
     handlePositionChange(position) {
@@ -41,10 +64,19 @@ export default {
       this.user.lng = position.lng();
     },
     save() {
-      this.user.categories = [this.user.categories[0]];
+      this.user.categories = [];
+      if(this.producer)
+        this.user.categories.push('producer');
+      if(this.songwriter)
+        this.user.categories.push('songwriter');
+      if(this.musician)
+        this.user.categories.push('musician');
+      if(this.executive)
+        this.user.categories.push('executive');
+      if(this.singer)
+        this.user.categories.push('singer');
       let url = '/updateProfile';
       this.axios.put(url, this.user).then((res) => {
-        console.log(res);
         this.success = true;
       });
     },
@@ -84,7 +116,7 @@ export default {
           </div>
         </div>
         <div class="flex items-center justify-between">
-          <div class="form-control w-3/5">
+          <div class="form-control w-full">
             <label class="label">
               <span class="label-text font-bold">Address</span>
             </label>
@@ -95,21 +127,32 @@ export default {
               class="input bg-slate-100 text-lg font-medium"
             />
           </div>
-          <div class="form-control w-1/5 flex-1 ml-5">
+        </div>
+        <div class="flex items-center justify-between" style="padding-top: 25px; padding-bottom: 15px;">
+          <div class="form-control w-1/5">
             <label class="label">
               <span class="label-text font-bold">Category</span>
             </label>
-            <select
-              class="select select-bordered w-full max-w-xs bg-slate-100"
-              v-model="user.categories[0]"
-            >
-              <option disabled="disabled" selected="selected">
-                Choose your category
-              </option>
-              <option>Artist</option>
-              <option>option 2</option>
-              <option>option 3</option>
-            </select>
+          </div>
+          <div class="form-control w-1/5">
+            <input type="checkbox" id="producer" v-model="producer">
+            <label for="producer">Producer</label>
+          </div>
+          <div class="form-control w-1/5">
+            <input type="checkbox" id="songwriter" v-model="songwriter">
+            <label for="songwriter">Songwriter</label>
+          </div>
+            <div class="form-control w-1/5">
+            <input type="checkbox" id="musician" v-model="musician">
+            <label for="musician">Musician</label>
+          </div>
+            <div class="form-control w-1/5">
+            <input type="checkbox" id="executive" v-model="executive">
+            <label for="executive">Executive</label>
+          </div>
+            <div class="form-control w-1/5">
+            <input type="checkbox" id="singer" v-model="singer">
+            <label for="singer">Singer</label>
           </div>
         </div>
         <div>
@@ -128,6 +171,8 @@ export default {
           <h1 class="w-4/6 text-xl font-extrabold mb-10">Map settings</h1>
           <div v-if="user.lat && user.lng">
             <ProfileMap
+              :key="user.categories[0]"
+              :user="user"
               @positionChange="handlePositionChange"
               :lat="user.lat"
               :lng="user.lng"
