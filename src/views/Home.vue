@@ -1,13 +1,5 @@
 <template>
   <div class="mx-auto bg-base-200 w-full">
-    <div class="w-5/6 mx-auto py-10">
-      <h1 class="text-4xl font-bold">Explore all artists</h1>
-      <p class="text-lg text-gray-600">
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illum
-        similique dolorem ex commodi necessitatibus adipisci consequatur beatae
-        impedit blanditiis.
-      </p>
-    </div>
     <div v-if="openWindow" id="popup1" class="overlay">
       <div class="popup">
         <h2>Welcome to Billboard 500</h2>

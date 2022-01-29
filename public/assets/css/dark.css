@@ -38,6 +38,10 @@ html[data-theme='dark'] {
 --text-color-highlight: hsl(25, 70%, 45%);
 }
 
+.link-primary {
+    color: #47c2f7 !important;
+}
+
 @media (prefers-color-scheme: dark) {
     img {
         opacity: .75;

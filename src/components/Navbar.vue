@@ -3,13 +3,14 @@
     <!-- logo -->
     <div class="logo">
       <a href="/">
-        <img width="63" src="/assets/images/logo.jpeg" />
+        <img width="64" src="/assets/images/logo.jpeg" />
       </a>
     </div>
     <div class="mx-5 flex items-center">
       <div class="theme-switch-wrapper">
         <label class="theme-switch" for="checkbox">
-          <input type="checkbox" id="checkbox" @change="darkThemeSwitch"/>
+          <input v-if="darkMode" type="checkbox" id="checkbox" checked @change="darkThemeSwitch"/>
+          <input v-else type="checkbox" id="checkbox" @change="darkThemeSwitch"/>
           <div class="slider round"></div>
         </label>
       </div>
@@ -46,15 +47,26 @@ export default {
   },
   created() {
     this.themeChanger = new themeChanger();
+    if(this.darkMode) {
+      this.themeChanger._darkThemeSwitch();
+    }
   },
   methods: {
     darkThemeSwitch() {
+      if(this.darkMode)
+        localStorage.setItem('mode', 'light');
+      else
+        localStorage.setItem('mode', 'dark');
       this.themeChanger._darkThemeSwitch();
     }
   },
   computed: {
     user() {
       return this.user = JSON.parse(localStorage.getItem('user') || '{"logged": false, "name": null}');
+    },
+    darkMode() {
+      let mode = localStorage.getItem('mode');
+      return mode == 'dark';
     }
   }
 };
