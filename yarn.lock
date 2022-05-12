@@ -113,10 +113,10 @@
   resolved "https://registry.yarnpkg.com/@types/tailwindcss/-/tailwindcss-3.0.1.tgz#366d4028a3b605a5e63253b3dea34c425d6f6d48"
   integrity sha512-0uQS44Y4HYpANZO+xrrrQg9P82v6ZjGcZihbH5UpsZXCGQDMyY8oWUBhsx5LGJcJ/Nyfl3WdGq/4pXHNNyeD4Q==
 
-"@vitejs/plugin-vue@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@vitejs/plugin-vue/-/plugin-vue-2.0.1.tgz#db0e5eacf96358e04cc501c9008079b25a70a4ac"
-  integrity sha512-wtdMnGVvys9K8tg+DxowU1ytTrdVveXr3LzdhaKakysgGXyrsfaeds2cDywtvujEASjWOwWL/OgWM+qoeM8Plg==
+"@vitejs/plugin-vue@^2.3.3":
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/@vitejs/plugin-vue/-/plugin-vue-2.3.3.tgz#fbf80cc039b82ac21a1acb0f0478de8f61fbf600"
+  integrity sha512-SmQLDyhz+6lGJhPELsBdzXGc+AcaT8stgkbiTFGpXPe8Tl1tJaBw1A6pxDqDuRsVkD8uscrkx3hA7QDOoKYtyw==
 
 "@vue/compiler-core@3.2.26":
   version "3.2.26"
